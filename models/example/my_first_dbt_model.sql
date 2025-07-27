@@ -17,7 +17,7 @@ with source_data as (
     union all
     select 3 as id, 'A3' as val
     union all
-    select null as id, null as val
+    select -1 as id, null as val
 
 )
 
