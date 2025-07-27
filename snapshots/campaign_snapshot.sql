@@ -11,6 +11,6 @@
 }}
 
 
-select * from {{ souce('campaign','campaigns') }}
+select * from {{ source('campaign','campaigns') }}
 
 {% endsnapshot %}
