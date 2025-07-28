@@ -13,7 +13,7 @@
       snapshot_meta_column_names={
           'dbt_valid_from': 'effective_from',
           'dbt_valid_to': 'effective_to',
-          'dbt_is_delted': 'delete_ind'
+          'dbt_is_deleted': 'delete_ind'
       }
     )
 }}
