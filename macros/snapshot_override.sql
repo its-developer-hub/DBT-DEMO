@@ -4,7 +4,7 @@
     select *,
         {{ strategy.scd_id }} as dbt_scd_id,
         {{ strategy.updated_at }} as dbt_updated_at,
-        cast(parse_date('%Y-%m-%d', '{{ var("UPDATED_TS") }}') as timestamp) as effective_from,
+        cast(parse_date('%Y-%m-%d', '{{ var("updated_ts") }}') as timestamp) as effective_from,
         nullif({{ strategy.updated_at }}, {{ strategy.updated_at }}) as effective_to
     from (
         {{ sql }}
@@ -37,7 +37,7 @@
             *,
             {{ strategy.unique_key }} as dbt_unique_key,
             {{ strategy.updated_at }} as dbt_updated_at,
-            cast(parse_date('%Y-%m-%d', '{{ var("UPDATED_TS") }}') as timestamp) as effective_from,
+            cast(parse_date('%Y-%m-%d', '{{ var("updated_ts") }}') as timestamp) as effective_from,
             nullif({{ strategy.updated_at }}, {{ strategy.updated_at }}) as effective_to,
             {{ strategy.scd_id }} as dbt_scd_id
 
@@ -50,8 +50,8 @@
             *,
             {{ strategy.unique_key }} as dbt_unique_key,
             {{ strategy.updated_at }} as dbt_updated_at,
-            cast(parse_date('%Y-%m-%d', '{{ var("UPDATED_TS") }}') as timestamp) as effective_from,
-            cast(parse_date('%Y-%m-%d', '{{ var("UPDATED_TS") }}') as timestamp) as effective_to
+            cast(parse_date('%Y-%m-%d', '{{ var("updated_ts") }}') as timestamp) as effective_from,
+            cast(parse_date('%Y-%m-%d', '{{ var("updated_ts") }}') as timestamp) as effective_to
 
         from snapshot_query
     ),
