@@ -1,10 +1,10 @@
--- macros/snaphsot_override.sql
+-- macros/overrides.sql
 {% macro build_snapshot_table(strategy, sql) %}
 
     select *,
         {{ strategy.scd_id }} as dbt_scd_id,
         {{ strategy.updated_at }} as dbt_updated_at,
-        cast(parse_date('%Y-%m-%d', '{{ var("my_date") }}') as timestamp) as effective_from,
+        cast(parse_date('%Y-%m-%d', '{{ var("UPDATED_TS") }}') as timestamp) as effective_from,
         nullif({{ strategy.updated_at }}, {{ strategy.updated_at }}) as effective_to
     from (
         {{ sql }}
@@ -37,7 +37,7 @@
             *,
             {{ strategy.unique_key }} as dbt_unique_key,
             {{ strategy.updated_at }} as dbt_updated_at,
-            cast(parse_date('%Y-%m-%d', '{{ var("my_date") }}') as timestamp) as effective_from,
+            cast(parse_date('%Y-%m-%d', '{{ var("UPDATED_TS") }}') as timestamp) as effective_from,
             nullif({{ strategy.updated_at }}, {{ strategy.updated_at }}) as effective_to,
             {{ strategy.scd_id }} as dbt_scd_id
 
@@ -50,8 +50,8 @@
             *,
             {{ strategy.unique_key }} as dbt_unique_key,
             {{ strategy.updated_at }} as dbt_updated_at,
-            cast(parse_date('%Y-%m-%d', '{{ var("my_date") }}') as timestamp) as effective_from,
-            cast(parse_date('%Y-%m-%d', '{{ var("my_date") }}') as timestamp) as effective_to
+            cast(parse_date('%Y-%m-%d', '{{ var("UPDATED_TS") }}') as timestamp) as effective_from,
+            cast(parse_date('%Y-%m-%d', '{{ var("UPDATED_TS") }}') as timestamp) as effective_to
 
         from snapshot_query
     ),
@@ -127,25 +127,3 @@
     {%- endif %}
 
 {% endmacro %}
-Steps:
-
-Add an initial snapshot:
--- snapshots/snappy.sql
-
-{% snapshot snappy %}
-
-{{
-    config(
-        target_database='cse-sandbox-319708',
-        target_schema='dbt_jyeo',
-        unique_key='user_id',
-        strategy='check',
-        check_cols='all'
-    )
-}}
-
-select 1 as user_id, 'active' as status, 123 as price
-union all
-select 2 as user_id, 'inactive' as status, 123 as price
-
-{% endsnapshot %}
