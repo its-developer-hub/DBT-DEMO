@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+    - name: campaign
+      database: dev_ssot_stg
+      schema: raw_stage
+
+      tables:
+        - name: campaigns
+          description: "Table for storing marketing campaign details"
+          freshness: null
+         

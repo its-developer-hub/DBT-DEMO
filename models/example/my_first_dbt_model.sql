@@ -17,7 +17,7 @@ with source_data as (
     union all
     select 3 as id, 'A3' as val
     union all
-    select null as id, null as val
+    select -1 as id, null as val
 
 )
 
@@ -28,4 +28,4 @@ from source_data
     Uncomment the line below to remove records with null `id` values
 */
 
--- where id is not null
+ where val is not null
